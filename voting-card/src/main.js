@@ -1,8 +1,25 @@
-import Vue from 'vue'
-import App from './App.vue'
+import Card from './components/Card.svelte'
 
-Vue.config.productionTip = false
+var title = "Segue o relator?"
+var state = "open"
+var votes = [
+	{
+		option: 'Sim',
+		count: 8
+	},
+	{
+		option: 'Não',
+		count: 3
+	}
+]
 
-new Vue({
-  render: h => h(App),
-}).$mount('#app')
+const app = new Card({
+	target: document.body,
+	props: {
+		title: title,
+		state: state,
+		votes: votes
+	}
+});
+
+export default app;
