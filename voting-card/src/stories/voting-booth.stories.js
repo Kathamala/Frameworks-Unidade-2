@@ -1,25 +1,27 @@
-import { Meta, Story } from '@storybook/angular';
-import { VotingBoothComponent } from '../components/voting-booth.component'
+import Booth  from '../components/voting-booth.vue';
 
 //👇 This default export determines where your story goes in the story list
 export default {
   title: 'Booth',
-  component: VotingBoothComponent
-} as Meta;
+  component: Booth
+};
 
 //👇 We create a “template” of how args map to rendering
-const Template: Story<VotingBoothComponent> = (args: VotingBoothComponent) => ({
-  props: args,
+
+const Template = (args, {argTypes}) => ({
+  components: { Booth },
+  props: Object.keys(argTypes),
+  template: '<Booth v-bind="$props"/>',
 });
 
 export const FirstStory = Template.bind({});
-FirstStory.storyName = "Sim/Não";
+FirstStory.storyName = "Sim/Não"
 FirstStory.args = {
     options: ['Sim', 'Não']
 };
 
 export const SecondStory = Template.bind({});
-SecondStory.storyName = "Sim/Não/Talvez";
+SecondStory.storyName = "Sim/Não/Talvez"
 SecondStory.args = {
     options: ['Sim', 'Não', 'Talvez']
 };
