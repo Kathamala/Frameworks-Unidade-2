@@ -8,8 +8,6 @@ export default function Result(props) {
         totalVotes += props.choices[i].votes;
     }
 
-    console.log(props.choices);
-
     const results = props.choices.map((choice, index) => (
         <p key={index.toString()}>
           {index + 1}. { choice.text } - { choice.votes } votes ({((choice.votes / (1.0*totalVotes))*100).toFixed(0)}%)

@@ -15,7 +15,7 @@ export function requiredValidation(value){
 }
 
 export function requiredIsANumber(value){
-    if(isNaN(value)){
+    if(isNaN(value) || value.toString().trim() === ''){
         return 'Este campo deve conter um valor numérico'
     }
 
@@ -23,7 +23,7 @@ export function requiredIsANumber(value){
 }
 
 export function openOrClosed(value){
-    if(value != 'open' && value != 'closed'){
+    if(value !== 'open' && value !== 'closed'){
         return 'Este campo deve conter [open] ou [closed] como resposta'
     }
 

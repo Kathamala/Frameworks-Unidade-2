@@ -3,7 +3,6 @@ import { minLengthValidation, requiredValidation, requiredIsANumber, openOrClose
 import VotingCard from './VotingCard';
 import Input from './Input';
 
-//let form = true;
 const options = [
     {
         text: '',
@@ -14,10 +13,6 @@ const options = [
         votes: 0
     }
 ];
-
-function increaseChoice(index){
-    options[index].votes++;
-}
 
 const validate = {
     statement: (value) => minLengthValidation(3, value),
@@ -33,12 +28,12 @@ export default class BoothForm extends React.Component{
         super(props)
         this.state = {
             cabine: {
-                statement: '',
+                statement: props.vote.title == undefined ? '' : props.vote.title,
                 votingState: '',
-                option1: '',
-                votes1: 0,
-                option2: '',
-                votes2: 0
+                option1: props.vote.options[0] == undefined ? '' : props.vote.options[0].text,
+                votes1: props.vote.options[0] == undefined ? '' : props.vote.options[0].votes,
+                option2: props.vote.options[1] == undefined ? '' : props.vote.options[1].text,
+                votes2: props.vote.options[1] == undefined ? '' : props.vote.options[1].votes
             },
             errors: {},
             touched: {},
@@ -48,6 +43,11 @@ export default class BoothForm extends React.Component{
         this.onChange = this.onChange.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
         this.onBlur = this.onBlur.bind(this)
+        this.onCancel = this.onCancel.bind(this)
+    }
+
+    onCancel(event) {
+        this.props.onCancel()
     }
 
     onChange(event){
@@ -91,8 +91,21 @@ export default class BoothForm extends React.Component{
         const allTrue = touchedValues.every((t) => t === true)
 
         if (errorsIsEmpty && touchedAll && allTrue) {
-            this.state.form = false
-            
+            //this.state.form = false
+            options[0] = {
+                text: this.state.cabine.option1,
+                votes: parseInt(this.state.cabine.votes1)
+            }
+
+            options[1] = {
+                text: this.state.cabine.option2,
+                votes: parseInt(this.state.cabine.votes2)
+            }
+
+            this.props.onUpdate({
+                title: this.state.cabine.statement,
+                options
+            })
         }
 
     }
@@ -170,24 +183,9 @@ export default class BoothForm extends React.Component{
                         {...commonProps}
                     />                          
                 <input type="submit" value="Enviar" />
+                <button onClick={this.onCancel}>Cancelar</button>
                 </form>
             )
-        } else{
-
-            options[0] = {
-                text: this.state.cabine.option1,
-                votes: parseInt(this.state.cabine.votes1)
-            }
-
-            options[1] = {
-                text: this.state.cabine.option2,
-                votes: parseInt(this.state.cabine.votes2)
-            }
-
-            return(
-                <VotingCard title={this.state.cabine.statement} state={this.state.cabine.votingState} options={ options } onChose={increaseChoice}/>
-            )
         }
-
     }
 }

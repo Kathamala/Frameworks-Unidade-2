@@ -1,0 +1,29 @@
+[
+    {
+      "title": "Segue o relator?",
+      "options": [
+          {
+              "text": "Sim",
+              "votes": 2
+          },
+          {
+            "text": "Não",
+            "votes": 4
+        }
+        ]
+    },
+    {
+        "title": "Continuamos amanhã?",
+        "options": [
+            {
+                "text": "Sim",
+                "votes": 4
+            },
+            {
+              "text": "Não",
+              "votes": 6
+          }
+          ]
+      }
+  ]
+  

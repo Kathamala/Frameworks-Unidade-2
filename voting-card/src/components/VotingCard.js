@@ -18,10 +18,6 @@ export default function VotingCard(props) {
         props.onChose(optionIndex);
     }
 
-    function goBack(){
-        props.onReturn();
-    }
-
     if(state === "open"){
         return (
             <div className="votingCard">
