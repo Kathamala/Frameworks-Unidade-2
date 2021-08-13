@@ -17,11 +17,11 @@ FirstStory.storyName = "Votação 1";
 FirstStory.args = {
     votes:  [
         {
-            option: 'Sim',
+            text: 'Sim',
             count: 8,
         },
         {
-            option: 'Não',
+            text: 'Não',
             count: 3
         }
     ]
@@ -32,15 +32,15 @@ SecondStory.storyName = "Votação 2";
 SecondStory.args = {
     votes:  [
         {
-            option: 'Sim',
+            text: 'Sim',
             count: 8,
         },
         {
-            option: 'Talvez',
+            text: 'Talvez',
             count: 6
         },
         {
-            option: 'Não',
+            text: 'Não',
             count: 3
         }
     ]

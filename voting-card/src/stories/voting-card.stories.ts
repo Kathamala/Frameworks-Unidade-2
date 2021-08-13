@@ -34,11 +34,11 @@ FirstStory.args = {
   state: 'open',
   votes:  [
     {
-        option: 'Sim',
+        text: 'Sim',
         count: 8,
     },
     {
-        option: 'Não',
+        text: 'Não',
         count: 3
     }
 ]
@@ -51,15 +51,15 @@ SecondStory.args = {
   state: 'closed',
   votes:  [
     {
-        option: 'Sim',
+        text: 'Sim',
         count: 8,
     },
     {
-      option: 'Talvez',
-      count: 6,
+        text: 'Talvez',
+        count: 6,
     },
     {
-        option: 'Não',
+        text: 'Não',
         count: 3
     }
 ]

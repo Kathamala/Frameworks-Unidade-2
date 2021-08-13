@@ -1,7 +1,5 @@
 import { OnInit } from '@angular/core';
-import { Component, Input, AfterViewInit } from '@angular/core'
-import { VotingBoothComponent } from './voting-booth.component';
-import { VotingResultComponent } from './voting-result.component';
+import { Component, Input } from '@angular/core'
 
 @Component({
   selector: 'card',
@@ -37,7 +35,7 @@ import { VotingResultComponent } from './voting-result.component';
 export class VotingCardComponent implements OnInit {
     @Input() title: string | undefined
     @Input() state: string | undefined
-    @Input() votes: { option: string; count: number; }[] = []
+    @Input() votes: { text: string; count: number; }[] = []
     boothOptions = ['']
 
     onSelect(i: any){
@@ -46,6 +44,6 @@ export class VotingCardComponent implements OnInit {
     }    
 
     ngOnInit() {
-        this.boothOptions = this.votes.map(option => (option.option));
+        this.boothOptions = this.votes.map(option => (option.text));
     }
 }

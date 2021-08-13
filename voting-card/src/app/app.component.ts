@@ -2,19 +2,26 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  template: '<card title="Segue o relator?" state="open" [votes]="options" ></card>'
+  template: '<vt-list> </vt-list>'
 })
 export class AppComponent {
-  title = 'voting-card';
+}
+
+/*
+@Component({
+  selector: 'app-root',
+  template: '<vt-form> </vt-form>'
+})
+export class AppComponent {
+  title = 'vt-form';
   options = [
     {
-        option: 'Sim',
+        text: 'Sim',
         count: 8,
     },
     {
-        option: 'Não',
+        text: 'Não',
         count: 3
     }
 ]
-}
-
+}*/

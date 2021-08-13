@@ -1,13 +1,123 @@
 {
     "pipes": [],
-    "interfaces": [],
-    "injectables": [],
+    "interfaces": [
+        {
+            "name": "VoteType",
+            "id": "interface-VoteType-8f4e1bf088dfb3e4880f13e54c58a4d8",
+            "file": "src/components/voting-form.component.ts",
+            "type": "interface",
+            "sourceCode": "import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core'\n\ninterface VoteType {\n  title: string\n  options: [\n            {\n                text,\n                count\n            },\n            {\n                text,\n                count\n            }\n    ]\n}\n\n@Component({\n  selector: 'vt-form',\n  template: `\n    <form #vtForm=\"ngForm\" (ngSubmit)=\"vtForm.form.valid && onSubmit()\">\n      <vt-input\n        type=\"textarea\"\n        label=\"Título\"\n        placeholder=\"Digite o título da votação\"\n        isRequired=\"true\"\n        minlength=\"3\"\n        name=\"title\"\n        [(value)]=\"vt.title\"\n      ></vt-input>\n\n      <vt-input\n        type=\"input\"\n        label=\"Opção 1\"\n        placeholder=\"Digite a 1ª opção\"\n        isRequired=\"true\"\n        [(value)]=\"vt.option1\"\n      ></vt-input>\n\n      <vt-input\n        type=\"input\"\n        label=\"Votes 1\"\n        placeholder=\"Digite a quantidade de votos da 1ª opção\"\n        isRequired=\"true\"\n        [(value)]=\"vt.votes1\"\n      ></vt-input>\n\n      <vt-input\n        type=\"input\"\n        label=\"Opção 2\"\n        placeholder=\"Digite a 2ª opção\"\n        isRequired=\"true\"\n        [(value)]=\"vt.option2\"\n      ></vt-input>\n\n      <vt-input\n        type=\"input\"\n        label=\"Votes 2\"\n        placeholder=\"Digite a quantidade de votos da 2ª opção\"\n        isRequired=\"true\"\n        [(value)]=\"vt.votes2\"\n        ></vt-input>\n\n      <input type=\"submit\" value=\"Atualizar\" />\n      <button type=\"button\" (click)=\"cancel.emit()\">Cancelar</button>\n    </form>\n  `\n})\nexport class VoteFormComponent implements OnInit {\n  @Input() vote: VoteType\n  @Output() update = new EventEmitter()\n  @Output() cancel = new EventEmitter()\n  vt\n\n  ngOnInit() {\n    const { title, options } = this.vote || {}\n    const [ \n        {\n          text: option1,\n          count: votes1\n        },\n        {\n          text: option2,\n          count: votes2\n        }\n      ] = options || []\n\n    this.vt = {\n      title,\n      option1,\n      option2,\n      votes1,\n      votes2\n    }\n\n    console.log(this.vote);\n  }\n\n  onSubmit() {\n    const options = [\n        {\n          text: this.vt.option1,\n          count: this.vt.votes1\n        },\n        {\n          text: this.vt.option2,\n          count: this.vt.votes2\n        },\n      ]  \n\n    this.update.emit({\n      title: this.vt.title,\n      options\n    })\n  }\n}\n",
+            "properties": [
+                {
+                    "name": "options",
+                    "type": "[literal type, literal type]",
+                    "optional": false,
+                    "description": "",
+                    "line": 5
+                },
+                {
+                    "name": "title",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 4
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 150,
+            "methods": []
+        }
+    ],
+    "injectables": [
+        {
+            "name": "VotesService",
+            "id": "injectable-VotesService-d020514d324643edd647c079562d3486",
+            "file": "src/components/voting-list.service.ts",
+            "properties": [
+                {
+                    "name": "votes",
+                    "type": "[literal type]",
+                    "optional": false,
+                    "description": "",
+                    "line": 5
+                }
+            ],
+            "methods": [
+                {
+                    "name": "createVote",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 22
+                },
+                {
+                    "name": "deleteVote",
+                    "args": [
+                        {
+                            "name": "index",
+                            "type": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 53,
+                    "jsdoctags": [
+                        {
+                            "name": "index",
+                            "type": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "updateVote",
+                    "args": [
+                        {
+                            "name": "vote",
+                            "type": ""
+                        },
+                        {
+                            "name": "index",
+                            "type": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 49,
+                    "jsdoctags": [
+                        {
+                            "name": "vote",
+                            "type": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "index",
+                            "type": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "description": "",
+            "sourceCode": "import { Injectable } from '@angular/core'\n\n@Injectable({ providedIn: 'root' })\nexport class VotesService {\n  votes: [\n    //{ title: '', options: [{text, count: 0}] }\n    {\n      title: string,\n      options: [\n                {\n                    text,\n                    count\n                },\n                {\n                    text,\n                    count\n                }\n        ]\n    }\n  ]\n\n  createVote() {\n    if(this.votes == undefined){\n        this.votes = [{ title: '', options: [\n          {\n            text: '',\n            count: 0\n          },\n          {\n            text: '',\n            count: 0\n          }\n        ] \n      }\n    ]\n        return;\n    }\n    \n    this.votes.push({ title: '', options: [          {\n      text: '',\n      count: 0\n    },\n    {\n      text: '',\n      count: 0\n    }] })\n  }\n\n  updateVote(vote, index) {\n    this.votes[index] = vote\n  }\n\n  deleteVote(index) {\n    this.votes.splice(index, 1)\n  }\n}\n",
+            "type": "injectable"
+        }
+    ],
     "classes": [],
     "directives": [],
     "components": [
         {
             "name": "AppComponent",
-            "id": "component-AppComponent-3ffdec2816aa5aca9eafc461d202657e",
+            "id": "component-AppComponent-a8bb6e2d1a7e7c9329993ce0e7d8b073",
             "file": "src/app/app.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -17,39 +127,385 @@
             "selector": "app-root",
             "styleUrls": [],
             "styles": [],
-            "template": "<card title=\"Segue o relator?\" state=\"open\" [votes]=\"options\" ></card>",
+            "template": "<vt-list> </vt-list>",
             "templateUrl": [],
             "viewProviders": [],
             "inputsClass": [],
             "outputsClass": [],
-            "propertiesClass": [
-                {
-                    "name": "options",
-                    "defaultValue": "[\n    {\n        option: 'Sim',\n        count: 8,\n    },\n    {\n        option: 'Não',\n        count: 3\n    }\n]",
-                    "type": "[]",
-                    "optional": false,
-                    "description": "",
-                    "line": 9
-                },
-                {
-                    "name": "title",
-                    "defaultValue": "'voting-card'",
-                    "type": "string",
-                    "optional": false,
-                    "description": "",
-                    "line": 8
-                }
-            ],
+            "propertiesClass": [],
             "methodsClass": [],
             "hostBindings": [],
             "hostListeners": [],
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'app-root',\n  template: '<card title=\"Segue o relator?\" state=\"open\" [votes]=\"options\" ></card>'\n})\nexport class AppComponent {\n  title = 'voting-card';\n  options = [\n    {\n        option: 'Sim',\n        count: 8,\n    },\n    {\n        option: 'Não',\n        count: 3\n    }\n]\n}\n\n",
+            "sourceCode": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'app-root',\n  template: '<vt-list> </vt-list>'\n})\nexport class AppComponent {\n}\n\n/*\n@Component({\n  selector: 'app-root',\n  template: '<vt-form> </vt-form>'\n})\nexport class AppComponent {\n  title = 'vt-form';\n  options = [\n    {\n        text: 'Sim',\n        count: 8,\n    },\n    {\n        text: 'Não',\n        count: 3\n    }\n]\n}*/",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": ""
+        },
+        {
+            "name": "InputComponent",
+            "id": "component-InputComponent-464698117a9276c49c14596db758a741",
+            "file": "src/components/input.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "vt-input",
+            "styleUrls": [],
+            "styles": [
+                "\n      .form-item {\n        display: flex;\n        margin-bottom: 1.7rem;\n      }\n      label {\n        min-width: 6rem;\n        text-align: right;\n        margin-right: 5px;\n        font-weight: bold;\n      }\n      .error {\n        position: absolute;\n        color: red;\n        font-style: italic;\n        font-size: smaller;\n      }\n      input[type='text'],\n      textarea {\n        border-radius: 3px;\n        font-size: 12pt;\n        font-family: Arial, Helvetica, sans-serif;\n        width: 18rem;\n        border: 1px solid #aaa;\n        padding: 0.2em;\n        color: #444;\n      }\n      .ng-invalid.ng-touched {\n        border-color: red;\n      }\n    "
+            ],
+            "template": "<div class=\"form-item\">\n  <label>\n    {{ label }}\n    <span *ngIf=\"isRequired\" style=\"color: red\">*</span>\n  </label>\n  <div>\n    <textarea\n      #txtAreaElm=\"ngModel\"\n      rows=\"4\"\n      [placeholder]=\"placeholder\"\n      [required]=\"isRequired\"\n      [minlength]=\"minlength\"\n      [(ngModel)]=\"value\"\n      (change)=\"valueChange.emit(txtAreaElm.value)\"\n      (blur)=\"valueChange.emit(txtAreaElm.value)\"\n      [hidden]=\"type !== 'textarea'\"\n    ></textarea>\n    <input\n      #inputElm=\"ngModel\"\n      type=\"text\"\n      [placeholder]=\"placeholder\"\n      [required]=\"isRequired\"\n      [(ngModel)]=\"value\"\n      (change)=\"valueChange.emit(inputElm.value)\"\n      (blur)=\"valueChange.emit(inputElm.value)\"\n      [hidden]=\"type !== 'input'\"\n    />\n    <div class=\"error\">{{ error(txtAreaElm) || error(inputElm) }}</div>\n  </div>\n</div>\n",
+            "templateUrl": [],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "isRequired",
+                    "line": 76,
+                    "type": "string"
+                },
+                {
+                    "name": "label",
+                    "line": 74,
+                    "type": "string"
+                },
+                {
+                    "name": "minlength",
+                    "line": 77,
+                    "type": "string"
+                },
+                {
+                    "name": "placeholder",
+                    "line": 75,
+                    "type": "string"
+                },
+                {
+                    "name": "type",
+                    "line": 73,
+                    "type": "string"
+                },
+                {
+                    "name": "value",
+                    "line": 78,
+                    "type": "string"
+                }
+            ],
+            "outputsClass": [
+                {
+                    "name": "valueChange",
+                    "defaultValue": "new EventEmitter<string>()",
+                    "line": 79,
+                    "type": "EventEmitter"
+                }
+            ],
+            "propertiesClass": [],
+            "methodsClass": [
+                {
+                    "name": "error",
+                    "args": [
+                        {
+                            "name": "elm",
+                            "type": "NgModel"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "string",
+                    "typeParameters": [],
+                    "line": 81,
+                    "jsdoctags": [
+                        {
+                            "name": "elm",
+                            "type": "NgModel",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { Component, Input, Output, EventEmitter } from '@angular/core'\nimport { NgModel } from '@angular/forms'\n\n@Component({\n  selector: 'vt-input',\n  template: `\n    <div class=\"form-item\">\n      <label>\n        {{ label }}\n        <span *ngIf=\"isRequired\" style=\"color: red\">*</span>\n      </label>\n      <div>\n        <textarea\n          #txtAreaElm=\"ngModel\"\n          rows=\"4\"\n          [placeholder]=\"placeholder\"\n          [required]=\"isRequired\"\n          [minlength]=\"minlength\"\n          [(ngModel)]=\"value\"\n          (change)=\"valueChange.emit(txtAreaElm.value)\"\n          (blur)=\"valueChange.emit(txtAreaElm.value)\"\n          [hidden]=\"type !== 'textarea'\"\n        ></textarea>\n        <input\n          #inputElm=\"ngModel\"\n          type=\"text\"\n          [placeholder]=\"placeholder\"\n          [required]=\"isRequired\"\n          [(ngModel)]=\"value\"\n          (change)=\"valueChange.emit(inputElm.value)\"\n          (blur)=\"valueChange.emit(inputElm.value)\"\n          [hidden]=\"type !== 'input'\"\n        />\n        <div class=\"error\">{{ error(txtAreaElm) || error(inputElm) }}</div>\n      </div>\n    </div>\n  `,\n  styles: [\n    `\n      .form-item {\n        display: flex;\n        margin-bottom: 1.7rem;\n      }\n      label {\n        min-width: 6rem;\n        text-align: right;\n        margin-right: 5px;\n        font-weight: bold;\n      }\n      .error {\n        position: absolute;\n        color: red;\n        font-style: italic;\n        font-size: smaller;\n      }\n      input[type='text'],\n      textarea {\n        border-radius: 3px;\n        font-size: 12pt;\n        font-family: Arial, Helvetica, sans-serif;\n        width: 18rem;\n        border: 1px solid #aaa;\n        padding: 0.2em;\n        color: #444;\n      }\n      .ng-invalid.ng-touched {\n        border-color: red;\n      }\n    `\n  ]\n})\nexport class InputComponent {\n  @Input() type: string\n  @Input() label: string\n  @Input() placeholder: string\n  @Input() isRequired: string\n  @Input() minlength: string\n  @Input() value: string\n  @Output() valueChange = new EventEmitter<string>()\n\n  error(elm: NgModel) {\n    if (elm.invalid && elm.touched) {\n      if (elm.errors?.required) {\n        return 'Este campo é obrigatório.'\n      }\n      if (elm.errors?.minlength) {\n        return `Este campo requer pelo menos ${this.minlength} caracteres`\n      }\n    }\n\n    return ''\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "\n      .form-item {\n        display: flex;\n        margin-bottom: 1.7rem;\n      }\n      label {\n        min-width: 6rem;\n        text-align: right;\n        margin-right: 5px;\n        font-weight: bold;\n      }\n      .error {\n        position: absolute;\n        color: red;\n        font-style: italic;\n        font-size: smaller;\n      }\n      input[type='text'],\n      textarea {\n        border-radius: 3px;\n        font-size: 12pt;\n        font-family: Arial, Helvetica, sans-serif;\n        width: 18rem;\n        border: 1px solid #aaa;\n        padding: 0.2em;\n        color: #444;\n      }\n      .ng-invalid.ng-touched {\n        border-color: red;\n      }\n    \n"
+        },
+        {
+            "name": "VoteFormComponent",
+            "id": "component-VoteFormComponent-8f4e1bf088dfb3e4880f13e54c58a4d8",
+            "file": "src/components/voting-form.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "vt-form",
+            "styleUrls": [],
+            "styles": [],
+            "template": "<form #vtForm=\"ngForm\" (ngSubmit)=\"vtForm.form.valid && onSubmit()\">\n  <vt-input\n    type=\"textarea\"\n    label=\"Título\"\n    placeholder=\"Digite o título da votação\"\n    isRequired=\"true\"\n    minlength=\"3\"\n    name=\"title\"\n    [(value)]=\"vt.title\"\n  ></vt-input>\n\n  <vt-input\n    type=\"input\"\n    label=\"Opção 1\"\n    placeholder=\"Digite a 1ª opção\"\n    isRequired=\"true\"\n    [(value)]=\"vt.option1\"\n  ></vt-input>\n\n  <vt-input\n    type=\"input\"\n    label=\"Votes 1\"\n    placeholder=\"Digite a quantidade de votos da 1ª opção\"\n    isRequired=\"true\"\n    [(value)]=\"vt.votes1\"\n  ></vt-input>\n\n  <vt-input\n    type=\"input\"\n    label=\"Opção 2\"\n    placeholder=\"Digite a 2ª opção\"\n    isRequired=\"true\"\n    [(value)]=\"vt.option2\"\n  ></vt-input>\n\n  <vt-input\n    type=\"input\"\n    label=\"Votes 2\"\n    placeholder=\"Digite a quantidade de votos da 2ª opção\"\n    isRequired=\"true\"\n    [(value)]=\"vt.votes2\"\n    ></vt-input>\n\n  <input type=\"submit\" value=\"Atualizar\" />\n  <button type=\"button\" (click)=\"cancel.emit()\">Cancelar</button>\n</form>\n",
+            "templateUrl": [],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "vote",
+                    "line": 69,
+                    "type": "VoteType"
+                }
+            ],
+            "outputsClass": [
+                {
+                    "name": "cancel",
+                    "defaultValue": "new EventEmitter()",
+                    "line": 71,
+                    "type": "EventEmitter"
+                },
+                {
+                    "name": "update",
+                    "defaultValue": "new EventEmitter()",
+                    "line": 70,
+                    "type": "EventEmitter"
+                }
+            ],
+            "propertiesClass": [
+                {
+                    "name": "vt",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 72
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 74
+                },
+                {
+                    "name": "onSubmit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 98
+                }
+            ],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core'\n\ninterface VoteType {\n  title: string\n  options: [\n            {\n                text,\n                count\n            },\n            {\n                text,\n                count\n            }\n    ]\n}\n\n@Component({\n  selector: 'vt-form',\n  template: `\n    <form #vtForm=\"ngForm\" (ngSubmit)=\"vtForm.form.valid && onSubmit()\">\n      <vt-input\n        type=\"textarea\"\n        label=\"Título\"\n        placeholder=\"Digite o título da votação\"\n        isRequired=\"true\"\n        minlength=\"3\"\n        name=\"title\"\n        [(value)]=\"vt.title\"\n      ></vt-input>\n\n      <vt-input\n        type=\"input\"\n        label=\"Opção 1\"\n        placeholder=\"Digite a 1ª opção\"\n        isRequired=\"true\"\n        [(value)]=\"vt.option1\"\n      ></vt-input>\n\n      <vt-input\n        type=\"input\"\n        label=\"Votes 1\"\n        placeholder=\"Digite a quantidade de votos da 1ª opção\"\n        isRequired=\"true\"\n        [(value)]=\"vt.votes1\"\n      ></vt-input>\n\n      <vt-input\n        type=\"input\"\n        label=\"Opção 2\"\n        placeholder=\"Digite a 2ª opção\"\n        isRequired=\"true\"\n        [(value)]=\"vt.option2\"\n      ></vt-input>\n\n      <vt-input\n        type=\"input\"\n        label=\"Votes 2\"\n        placeholder=\"Digite a quantidade de votos da 2ª opção\"\n        isRequired=\"true\"\n        [(value)]=\"vt.votes2\"\n        ></vt-input>\n\n      <input type=\"submit\" value=\"Atualizar\" />\n      <button type=\"button\" (click)=\"cancel.emit()\">Cancelar</button>\n    </form>\n  `\n})\nexport class VoteFormComponent implements OnInit {\n  @Input() vote: VoteType\n  @Output() update = new EventEmitter()\n  @Output() cancel = new EventEmitter()\n  vt\n\n  ngOnInit() {\n    const { title, options } = this.vote || {}\n    const [ \n        {\n          text: option1,\n          count: votes1\n        },\n        {\n          text: option2,\n          count: votes2\n        }\n      ] = options || []\n\n    this.vt = {\n      title,\n      option1,\n      option2,\n      votes1,\n      votes2\n    }\n\n    console.log(this.vote);\n  }\n\n  onSubmit() {\n    const options = [\n        {\n          text: this.vt.option1,\n          count: this.vt.votes1\n        },\n        {\n          text: this.vt.option2,\n          count: this.vt.votes2\n        },\n      ]  \n\n    this.update.emit({\n      title: this.vt.title,\n      options\n    })\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "implements": [
+                "OnInit"
+            ]
+        },
+        {
+            "name": "VoteListComponent",
+            "id": "component-VoteListComponent-e0c7a7fca6453785058aeb75d2d40598",
+            "file": "src/components/voting-list.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "vt-list",
+            "styleUrls": [],
+            "styles": [],
+            "template": "<div *ngIf=\"mode === 'view'\">\n  <h2>Votações</h2>\n  <button (click)=\"addVote()\">Nova votação</button>\n  <p *ngFor=\"let vote of vtService.votes; index as i\">\n    <b>P: </b> {{ vote.title }}\n    <button className=\"m5\" (click)=\"editVote(i)\">\n      Edita\n    </button>\n    <button className=\"m5\" (click)=\"removeVote(i)\">\n      Remove\n    </button>\n    <br />\n    <b>R: </b>\n    <span *ngFor=\"let o of vote.options; index as i\">\n      {{ o.text }}\n      <span *ngIf=\"i < vote.options.length - 1\">/ </span>\n    </span>\n    <button (click)=\"openVote(i)\">Abre votação</button>\n  </p>\n</div>\n\n<div *ngIf=\"mode === 'voteCard'\">\n  <card\n    [title]=\"vtService.votes[current].title\"\n    [state]=\"'open'\"\n    [votes]=\"vtService.votes[current].options\"\n  ></card>\n</div>\n\n<div *ngIf=\"mode !== 'view' && mode !== 'voteCard'\">\n  <vt-form\n    [vote]=\"vtService.votes[current]\"\n    (update)=\"updateChanges($event)\"\n    (cancel)=\"cancelChanges($event)\"\n  ></vt-form>\n</div>\n",
+            "templateUrl": [],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "current",
+                    "defaultValue": "0",
+                    "type": "number",
+                    "optional": false,
+                    "description": "",
+                    "line": 47
+                },
+                {
+                    "name": "mode",
+                    "defaultValue": "'view'",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 46
+                },
+                {
+                    "name": "vtService",
+                    "type": "VotesService",
+                    "optional": false,
+                    "description": "",
+                    "line": 49,
+                    "modifierKind": [
+                        114
+                    ]
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "addVote",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 51
+                },
+                {
+                    "name": "cancelChanges",
+                    "args": [
+                        {
+                            "name": "vote",
+                            "type": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 76,
+                    "jsdoctags": [
+                        {
+                            "name": "vote",
+                            "type": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "editVote",
+                    "args": [
+                        {
+                            "name": "index",
+                            "type": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 62,
+                    "jsdoctags": [
+                        {
+                            "name": "index",
+                            "type": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "openVote",
+                    "args": [
+                        {
+                            "name": "index",
+                            "type": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 57,
+                    "jsdoctags": [
+                        {
+                            "name": "index",
+                            "type": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "removeVote",
+                    "args": [
+                        {
+                            "name": "index",
+                            "type": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 67,
+                    "jsdoctags": [
+                        {
+                            "name": "index",
+                            "type": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "updateChanges",
+                    "args": [
+                        {
+                            "name": "vote",
+                            "type": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 71,
+                    "jsdoctags": [
+                        {
+                            "name": "vote",
+                            "type": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core'\nimport { VotesService } from './voting-list.service'\n\n@Component({\n  selector: 'vt-list',\n  template: `\n    <div *ngIf=\"mode === 'view'\">\n      <h2>Votações</h2>\n      <button (click)=\"addVote()\">Nova votação</button>\n      <p *ngFor=\"let vote of vtService.votes; index as i\">\n        <b>P: </b> {{ vote.title }}\n        <button className=\"m5\" (click)=\"editVote(i)\">\n          Edita\n        </button>\n        <button className=\"m5\" (click)=\"removeVote(i)\">\n          Remove\n        </button>\n        <br />\n        <b>R: </b>\n        <span *ngFor=\"let o of vote.options; index as i\">\n          {{ o.text }}\n          <span *ngIf=\"i < vote.options.length - 1\">/ </span>\n        </span>\n        <button (click)=\"openVote(i)\">Abre votação</button>\n      </p>\n    </div>\n\n    <div *ngIf=\"mode === 'voteCard'\">\n      <card\n        [title]=\"vtService.votes[current].title\"\n        [state]=\"'open'\"\n        [votes]=\"vtService.votes[current].options\"\n      ></card>\n    </div>    \n\n    <div *ngIf=\"mode !== 'view' && mode !== 'voteCard'\">\n      <vt-form\n        [vote]=\"vtService.votes[current]\"\n        (update)=\"updateChanges($event)\"\n        (cancel)=\"cancelChanges($event)\"\n      ></vt-form>\n    </div>\n  `\n})\nexport class VoteListComponent {\n  mode = 'view'\n  current = 0\n\n  constructor(public vtService: VotesService) {}\n\n  addVote() {\n    this.mode = 'add'\n    this.vtService.createVote()\n    this.current = this.vtService.votes.length - 1\n  }\n\n  openVote(index){\n    this.mode = 'voteCard'\n    this.current = index\n  }\n\n  editVote(index) {\n    this.current = index\n    this.mode = 'edit'\n  }\n\n  removeVote(index) {\n    this.vtService.deleteVote(index)\n  }\n\n  updateChanges(vote) {\n    this.vtService.updateVote(vote, this.current)\n    this.mode = 'view'\n  }\n\n  cancelChanges(vote) {\n    if (this.mode === 'add') {\n      this.vtService.deleteVote(this.vtService.votes.length - 1)\n    }\n    this.mode = 'view'\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [
+                    {
+                        "name": "vtService",
+                        "type": "VotesService"
+                    }
+                ],
+                "line": 47,
+                "jsdoctags": [
+                    {
+                        "name": "vtService",
+                        "type": "VotesService",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            }
         },
         {
             "name": "VotingBoothComponent",
@@ -97,7 +553,7 @@
         },
         {
             "name": "VotingCardComponent",
-            "id": "component-VotingCardComponent-10af5e10c52d56c5991ae2615d0fb391",
+            "id": "component-VotingCardComponent-66c6c058e4ac48eab3b3172059cbb597",
             "file": "src/components/voting-card.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -115,18 +571,18 @@
             "inputsClass": [
                 {
                     "name": "state",
-                    "line": 39,
+                    "line": 37,
                     "type": "string | undefined"
                 },
                 {
                     "name": "title",
-                    "line": 38,
+                    "line": 36,
                     "type": "string | undefined"
                 },
                 {
                     "name": "votes",
                     "defaultValue": "[]",
-                    "line": 40,
+                    "line": 38,
                     "type": "literal type[]"
                 }
             ],
@@ -138,7 +594,7 @@
                     "type": "[]",
                     "optional": false,
                     "description": "",
-                    "line": 41
+                    "line": 39
                 }
             ],
             "methodsClass": [
@@ -148,7 +604,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 48
+                    "line": 46
                 },
                 {
                     "name": "onSelect",
@@ -161,7 +617,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 43,
+                    "line": 41,
                     "jsdoctags": [
                         {
                             "name": "i",
@@ -178,7 +634,7 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { OnInit } from '@angular/core';\nimport { Component, Input, AfterViewInit } from '@angular/core'\nimport { VotingBoothComponent } from './voting-booth.component';\nimport { VotingResultComponent } from './voting-result.component';\n\n@Component({\n  selector: 'card',\n  template: `\n    <div class=\"votingCard\">\n        <h1>{{title}}</h1>\n        <div *ngIf=\"state === 'open'; else showResult\" >  \n            <br/>\n            <booth \n                [options]=\"boothOptions\"\n                (select)=\"onSelect($event)\"\n            >\n            </booth>\n        </div>\n\n        <ng-template #showResult>\n            <result [votes]=\"votes\" ></result>\n        </ng-template>\n    </div>\n  `,\n  styles: [\n    `\n        .votingCard{\n            padding: 10px;\n            border-radius: 5px;\n            border: 1px solid #000;\n            background-color: cornflowerblue;\n        }\n    `\n  ]\n})\n\nexport class VotingCardComponent implements OnInit {\n    @Input() title: string | undefined\n    @Input() state: string | undefined\n    @Input() votes: { option: string; count: number; }[] = []\n    boothOptions = ['']\n\n    onSelect(i: any){\n        this.votes[i].count++;\n        this.state = \"closed\";\n    }    \n\n    ngOnInit() {\n        this.boothOptions = this.votes.map(option => (option.option));\n    }\n}",
+            "sourceCode": "import { OnInit } from '@angular/core';\nimport { Component, Input } from '@angular/core'\n\n@Component({\n  selector: 'card',\n  template: `\n    <div class=\"votingCard\">\n        <h1>{{title}}</h1>\n        <div *ngIf=\"state === 'open'; else showResult\" >  \n            <br/>\n            <booth \n                [options]=\"boothOptions\"\n                (select)=\"onSelect($event)\"\n            >\n            </booth>\n        </div>\n\n        <ng-template #showResult>\n            <result [votes]=\"votes\" ></result>\n        </ng-template>\n    </div>\n  `,\n  styles: [\n    `\n        .votingCard{\n            padding: 10px;\n            border-radius: 5px;\n            border: 1px solid #000;\n            background-color: cornflowerblue;\n        }\n    `\n  ]\n})\n\nexport class VotingCardComponent implements OnInit {\n    @Input() title: string | undefined\n    @Input() state: string | undefined\n    @Input() votes: { text: string; count: number; }[] = []\n    boothOptions = ['']\n\n    onSelect(i: any){\n        this.votes[i].count++;\n        this.state = \"closed\";\n    }    \n\n    ngOnInit() {\n        this.boothOptions = this.votes.map(option => (option.text));\n    }\n}",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "\n        .votingCard{\n            padding: 10px;\n            border-radius: 5px;\n            border: 1px solid #000;\n            background-color: cornflowerblue;\n        }\n    \n",
@@ -188,7 +644,7 @@
         },
         {
             "name": "VotingResultComponent",
-            "id": "component-VotingResultComponent-21e46e2df8d65eb7cb7054764445d66e",
+            "id": "component-VotingResultComponent-eb5945c41a9796350993743227c47389",
             "file": "src/components/voting-result.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -198,7 +654,7 @@
             "selector": "result",
             "styleUrls": [],
             "styles": [],
-            "template": "<div *ngFor=\"let option of votes; index as i\">\n    {{i+1}}. {{option.option}} - {{option.count}} votes ({{((option.count / total)*100).toFixed(0)}}%)\n</div>\n",
+            "template": "<div *ngFor=\"let option of votes; index as i\">\n    {{i+1}}. {{option.text}} - {{option.count}} votes ({{((option.count / total)*100).toFixed(0)}}%)\n</div>\n",
             "templateUrl": [],
             "viewProviders": [],
             "inputsClass": [
@@ -219,7 +675,7 @@
                     "description": "",
                     "line": 15,
                     "modifierKind": [
-                        112
+                        114
                     ]
                 }
             ],
@@ -238,7 +694,7 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { OnInit } from '@angular/core';\nimport { Component, Input } from '@angular/core'\n\n@Component({\n  selector: 'result',\n  template:  `\n    <div *ngFor=\"let option of votes; index as i\">\n        {{i+1}}. {{option.option}} - {{option.count}} votes ({{((option.count / total)*100).toFixed(0)}}%)\n    </div>\n`\n})\n\nexport class VotingResultComponent implements OnInit {\n    @Input() votes: { option: string; count: number; }[] = [];\n    private total = 0;\n\n    ngOnInit() {\n        for(var i=0; i<this.votes.length; i++){\n            this.total += this.votes[i].count;\n        }\n    }\n}",
+            "sourceCode": "import { OnInit } from '@angular/core';\nimport { Component, Input } from '@angular/core'\n\n@Component({\n  selector: 'result',\n  template:  `\n    <div *ngFor=\"let option of votes; index as i\">\n        {{i+1}}. {{option.text}} - {{option.count}} votes ({{((option.count / total)*100).toFixed(0)}}%)\n    </div>\n`\n})\n\nexport class VotingResultComponent implements OnInit {\n    @Input() votes: { text: string; count: number; }[] = [];\n    public total = 0;\n\n    ngOnInit() {\n        for(var i=0; i<this.votes.length; i++){\n            this.total += +this.votes[i].count;\n        }\n    }\n}",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -260,6 +716,15 @@
                     "elements": [
                         {
                             "name": "AppComponent"
+                        },
+                        {
+                            "name": "InputComponent"
+                        },
+                        {
+                            "name": "VoteFormComponent"
+                        },
+                        {
+                            "name": "VoteListComponent"
                         },
                         {
                             "name": "VotingBoothComponent"
@@ -536,7 +1001,16 @@
                 "linktype": "component",
                 "name": "AppComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/3",
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/components/input.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "InputComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/9",
                 "status": "low"
             },
             {
@@ -555,6 +1029,42 @@
                 "name": "VotingCardComponent",
                 "coveragePercent": 0,
                 "coverageCount": "0/7",
+                "status": "low"
+            },
+            {
+                "filePath": "src/components/voting-form.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "VoteFormComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/7",
+                "status": "low"
+            },
+            {
+                "filePath": "src/components/voting-form.component.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "VoteType",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/components/voting-list.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "VoteListComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/11",
+                "status": "low"
+            },
+            {
+                "filePath": "src/components/voting-list.service.ts",
+                "type": "injectable",
+                "linktype": "injectable",
+                "name": "VotesService",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
                 "status": "low"
             },
             {
