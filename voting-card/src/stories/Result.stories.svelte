@@ -7,7 +7,7 @@
     title="VotingResult"
     component={ Result }
     argTypes={{
-        votes: []
+        options: []
     }}
 />
 
@@ -20,12 +20,12 @@
     args={{
         votes: [
             {
-                option: 'Sim',
-                count: 8
+                text: 'Sim',
+                votes: 8
             },
             {
-                option: 'Não',
-                count: 3
+                text: 'Não',
+                votes: 3
             }
         ]
     }}
@@ -37,16 +37,16 @@
     args={{
         votes: [
             {
-                option: 'Sim',
-                count: 8
+                text: 'Sim',
+                votes: 8
             },
             {
-                option: 'Talvez',
-                count: 6
+                text: 'Talvez',
+                votes: 6
             },
             {
-                option: 'Não',
-                count: 3
+                text: 'Não',
+                votes: 3
             }
         ]
     }}

@@ -20,11 +20,11 @@
     export let title
     export let state
     export let votes
-    const boothOptions = votes.map(option => (option.option))
+    const boothOptions = votes.map(option => (option.text))
 
     function onSelect(event){
         state = "closed"
-        votes[event.detail].count++;
+        votes[event.detail].votes++;
     }
 
 </script>

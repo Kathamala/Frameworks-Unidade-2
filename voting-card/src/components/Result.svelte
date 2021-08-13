@@ -1,6 +1,6 @@
 {#each votes as option, index (option)}
     <div>
-        { index+1 }. {option.option} - { option.count } votes ({ ((option.count/total)*100).toFixed(0) }%)
+        { index+1 }. {option.text} - { option.votes } votes ({ ((option.votes/total)*100).toFixed(0) }%)
     </div>
 {/each}
 
@@ -9,7 +9,7 @@
     let total = 0
 
     for(var i=0; i<votes.length; i++){
-        total += votes[i].count
+        total += votes[i].votes
     }
 
 </script>
