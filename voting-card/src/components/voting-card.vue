@@ -26,7 +26,7 @@
     export default {
         props: ['title', 'state', 'votes'],
         watch: {
-            state: function(newVAl, oldVal){
+            state: function(){
                 this.mutState = this.state
             }
         },

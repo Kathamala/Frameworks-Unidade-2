@@ -1,18 +1,27 @@
 <template>
   <div id="app">
-    <Card
-      :title="title"
-      :state="state"
-      :votes="votes"
-    ></Card>
+    <Form/>
   </div>
 </template>
 
 <script>
-  import Card from './components/voting-card.vue'
+  //import Card from './components/voting-card.vue'
+  import Form from './components/voting-form.vue'
+  //import List from './components/voting-list.vue'
+
+  /*
+      <Card
+      :title="title"
+      :state="state"
+      :votes="votes"
+    ></Card>
+  */
 
   export default {
     name: 'App',
+    data: () => ({
+    }),
+    /*
     data: () => ({
       title: "Segue o relator?",
       state: "open",
@@ -26,9 +35,11 @@
           "count": 3
         }
       ]
-    }),
+    }),*/
     components: {
-      Card
+      //Card
+      Form
+      //List
     }
   }
 </script>
