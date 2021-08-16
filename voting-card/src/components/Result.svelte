@@ -9,7 +9,7 @@
     let total = 0
 
     for(var i=0; i<votes.length; i++){
-        total += votes[i].votes
+        total += parseInt(votes[i].votes)
     }
 
 </script>
