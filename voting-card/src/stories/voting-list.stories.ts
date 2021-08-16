@@ -4,6 +4,8 @@ import { VoteFormComponent } from 'src/components/voting-form.component';
 import { VotingBoothComponent } from 'src/components/voting-booth.component';
 import { VotingResultComponent } from 'src/components/voting-result.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { InputComponent } from 'src/components/input.component';
+import { VotingCardComponent } from 'src/components/voting-card.component';
 
 //👇 This default export determines where your story goes in the story list
 export default {
@@ -13,8 +15,10 @@ export default {
     moduleMetadata({
       declarations: [
           VoteFormComponent, 
+          VotingCardComponent,
           VotingBoothComponent,
-          VotingResultComponent
+          VotingResultComponent,
+          InputComponent
         ],
       imports: [
         FormsModule, ReactiveFormsModule

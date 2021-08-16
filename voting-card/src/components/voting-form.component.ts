@@ -91,8 +91,6 @@ export class VoteFormComponent implements OnInit {
       votes1,
       votes2
     }
-
-    console.log(this.vote);
   }
 
   onSubmit() {
