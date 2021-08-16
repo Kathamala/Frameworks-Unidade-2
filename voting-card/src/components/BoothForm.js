@@ -1,6 +1,5 @@
 import React from 'react';
 import { minLengthValidation, requiredValidation, requiredIsANumber, openOrClosed } from './validations';
-import VotingCard from './VotingCard';
 import Input from './Input';
 
 const options = [
@@ -16,7 +15,6 @@ const options = [
 
 const validate = {
     statement: (value) => minLengthValidation(3, value),
-    votingState: openOrClosed,
     option1: requiredValidation,
     option2: requiredValidation,
     votes1: requiredIsANumber,
@@ -29,7 +27,6 @@ export default class BoothForm extends React.Component{
         this.state = {
             cabine: {
                 statement: props.vote.title == undefined ? '' : props.vote.title,
-                votingState: '',
                 option1: props.vote.options[0] == undefined ? '' : props.vote.options[0].text,
                 votes1: props.vote.options[0] == undefined ? '' : props.vote.options[0].votes,
                 option2: props.vote.options[1] == undefined ? '' : props.vote.options[1].text,
@@ -39,7 +36,6 @@ export default class BoothForm extends React.Component{
             touched: {},
             form: true
         }
-        //form = true
         this.onChange = this.onChange.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
         this.onBlur = this.onBlur.bind(this)
@@ -142,14 +138,6 @@ export default class BoothForm extends React.Component{
                         label="Título"
                         name="statement"
                         placeholder="Digite o título da votação"
-                        isRequired={true}
-                        {...commonProps}
-                    />
-
-                    <Input
-                        label="State"
-                        name="votingState"
-                        placeholder="Digite o estado [open] ou [closed]"
                         isRequired={true}
                         {...commonProps}
                     />
