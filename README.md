@@ -2,7 +2,7 @@
 
 Criação de uma lista de Cards de votação, com formulários e validações, nas frameworks react, angular, vue e svelte.
 
-## Links para os storybooks:
+### Links para os storybooks:
 
 - React: https://www.chromatic.com/start?inviteToken=949e92c6e6d243389f0fe59a5180a7be&appId=611abed7a22def003cc38067
 - Angular: https://www.chromatic.com/start?inviteToken=c6cb0c67abb54b7e8353a1d8e53aef55&appId=611ac183a22def003cc3e017
